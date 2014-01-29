@@ -25,3 +25,4 @@ class CommentSerializer(serializers.ModelSerializer):
     """Serializes a User object"""
     class Meta:
         model = Comment
+        depth = 1
