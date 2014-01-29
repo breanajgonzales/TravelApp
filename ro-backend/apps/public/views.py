@@ -7,11 +7,26 @@ from django.core.context_processors import csrf
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import status
-
 from rest_framework.authtoken.views import ObtainAuthToken
-
 from rest_framework import generics
+from rest_framework.authentication import get_authorization_header
 from rest_framework import permissions
+
+# -------------------------------
+
+from django.shortcuts import render
+from rest_framework import permissions
+from rest_framework import viewsets
+from rest_framework import views
+from rest_framework import parsers
+from rest_framework import renderers
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.models import Token
+
+from social.apps.django_app.utils import strategy
+from social.apps.django_app.views import _do_login
+
+# -------------------------------
 
 from django.contrib.auth.models import User
 from .models import *
@@ -40,8 +55,6 @@ class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserSerializer
 
 
-# I Added this stuff --------------------------------------
-
 class LocationList(generics.ListCreateAPIView):
     """List all Locations or create a new Location"""
     #permission_classes = (permissions.IsAuthenticated,)
@@ -59,14 +72,6 @@ class CommentList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     model = Comment
     serializer_class = CommentSerializer
-    # queryset = Comment.objects.filter(locationPostID = location_id)
-
-    # def get(self, request):
-    #     print "%s" % request.QUERY_PARAMS['locationID']
-    #     location_id = request.QUERY_PARAMS['locationID']
-    #     return query_set
-
-# I Added the stuff above --------------------------------------
 
 @api_view(('GET',))
 def comments_by_location(request):
@@ -144,3 +149,56 @@ class NewAuthToken(ObtainAuthToken):
            }
            return Response(data)
        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ObtainAuthToken2(views.APIView):  # generics.RetrieveUpdateDestroyAPIView
+    throttle_classes = ()
+    permission_classes = ()
+    parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
+    renderer_classes = (renderers.JSONRenderer,)
+    serializer_class = AuthTokenSerializer
+    model = Token
+
+    def get(self, r):
+        return []
+
+    # Accept backend as a parameter and 'auth' for a login / pass
+    def post(self, request, backend='google'):
+        print 'backend'
+        serializer = self.serializer_class(data=request.DATA)
+
+        if backend == 'auth':
+            if serializer.is_valid():
+                token, created = Token.objects.get_or_create(user=serializer.object['user'])
+                return Response({'token': token.key})
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        else:
+            print "Here"
+            # Here we call PSA to authenticate like we would if we used PSA on server side.
+            user = register_by_access_token(request, backend)
+
+            # If user is active we get or create the REST token and send it back with user data
+            if user and user.is_active:
+                token, created = Token.objects.get_or_create(user=user)
+                return Response({'id': user.id , 'name': user.username, 'userRole': 'user','token': token.key})
+
+@strategy()
+def register_by_access_token(request, backend):
+    backend = request.strategy.backend
+    # Split by spaces and get the array
+    auth = get_authorization_header(request).split()
+
+    if not auth or auth[0].lower() != b'token':
+        msg = 'No token header provided.'
+        return msg
+
+    if len(auth) == 1:
+        msg = 'Invalid token header. No credentials provided.'
+        return msg
+
+    access_token = auth[1]
+    # Real authentication takes place here
+    user = backend.do_auth(access_token)
+
+    return user

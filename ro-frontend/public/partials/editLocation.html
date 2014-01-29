@@ -3,8 +3,8 @@
     <div class="row">
 
         <div class="col-md-4 pull-left bs-example">
-            <h2>Edit {{ location.locationName }}</h2>
-
+            <h2>Edit: {{ location.locationName }}</h2>
+            <hr/>
             <form ng-submit="save()" enctype="multipart/form-data" class="form-register">
                 <table>
                 <tbody>
@@ -43,7 +43,7 @@
                     <li class="no-decoration"><input type="radio" id="sponsored" name="sponsored" ng-model="sponsored" value="false" checked/> No</li>
                     <li class="no-decoration"><input type="radio" id="sponsored" name="sponsored" ng-model="sponsored" value="true"/> Yes</li>
                 </div>
-                <br/>
+                <br/><br/>
                 <input class="center" id="photos" type="file" ng-model="photos" required="required" onchange="angular.element(this).scope().uploadFile(this.files)"/>
 
                 <hr/>

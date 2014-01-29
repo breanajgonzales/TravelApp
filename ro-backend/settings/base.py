@@ -10,6 +10,23 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication'
     )
 }
+AUTHENTICATION_BACKENDS={
+   # Provided by python-social-auth
+   'social.backends.google.GoogleOpenId',
+   'social.backends.google.GoogleOAuth2',
+   'social.backends.google.GoogleOAuth',
+   'social.backends.facebook.FacebookOAuth2',
+   'social.backends.facebook.FacebookAppOAuth2',
+   # Basic Django logins (we still want these, too)
+   'django.contrib.auth.backends.ModelBackend'
+}
+# https://developers.facebook.com/apps
+SOCIAL_AUTH_FACEBOOK_KEY = '733294136694518'
+SOCIAL_AUTH_FACEBOOK_SECRET = '739f4ba5762f70db226a23f60e4c293b'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '465995623564-ktjgpoc3d36mt4jt9ptvuof0u9nhfaat.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'jB6oPZuRv2qJy76tzYp0Xcei'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['profile']
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -84,6 +101,7 @@ INSTALLED_APPS = (
     'south',
     'corsheaders',
     'localflavor',
+    'social.apps.django_app.default'
 )
 
 # A sample logging configuration. The only tangible logging

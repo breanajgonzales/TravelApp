@@ -25,6 +25,37 @@ angular.module('roApp.controllers', [])
             console.log('event has been broadcast to Home Controller');
             $scope.session = SessionService.getSession();
         });
+
+
+        $scope.loginBK = function (backend) {
+
+            if (backend == 'facebook') {
+            OAuth.popup('facebook', function(error, success) {
+                if (error) {
+
+                }
+                else {
+                    var token = "Token " + success.access_token
+
+                    var loginPromise = $http({method:'POST', url: 'http://127.0.0.1:8000/api-token/login/' + backend + '/', headers: {'Authorization': token}});
+                    $scope.login.working = true;
+
+                    loginService.loginUser(loginPromise);
+                    loginPromise.success(function () {
+                      $scope.login = { working: false };
+                    });
+                    loginPromise.finally(function () {
+                      $scope.login.working = false;
+                    });
+
+                }
+            });
+            }
+
+    };
+
+    // oauth.io initilization
+    OAuth.initialize('');
     }])
 
     .controller('RegisterController', ['$scope', '$window', 'Restangular', 'SessionService', function($scope, $window, Restangular, SessionService) {

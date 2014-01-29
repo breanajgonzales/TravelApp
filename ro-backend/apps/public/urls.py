@@ -5,6 +5,8 @@ from django.conf.urls import patterns, url
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import *
 
+from rest_framework.authtoken.views import ObtainAuthToken
+
 
 
 urlpatterns = patterns(
@@ -12,6 +14,8 @@ urlpatterns = patterns(
     url(r'^api/users/(?P<pk>[0-9]+)/$', UserDetail.as_view(), name='user-detail'),
     url(r'^api/users$', 'authenticate'),
     url(r'^api/user$', 'logout'),
+   # url(r'^api-token/login/(?P<pk>[0-9]+)/$', ObtainAuthToken.as_view()),
+    url(r'^login/facebook/$', ObtainAuthToken2.as_view(), name="social-auth"),
 
     url(r'^addresses$', AddressList.as_view(), name='address-list'),
     url(r'^addresses/(?P<pk>[0-9]+)$', AddressDetail.as_view(), name='address-detail'),
@@ -24,7 +28,6 @@ urlpatterns = patterns(
     url(r'^comment$', CommentList.as_view(), name='comment-list'),
     url(r'^comments-by-location$', comments_by_location, name='comments-by-location'),
     url(r'^getuserid/(?P<token>.+)$', obtain_user_from_token, name='getUserId'),
-    # url(r'^location/(?P<pk>[0-9]+)$', LocationDetail.as_view(), name='location-Detail'),
 )
 
 # urlpatterns += patterns('', url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token'))
