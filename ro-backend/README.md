@@ -29,7 +29,7 @@ In your front end folder, run "npm install."
 Setting up your database
 -------------------------
 
-python manage.py schemamigration public —-init
+/python manage.py schemamigration public —-init
 python manage.py syncdb
      Select "no." Do not create a superuser at this time.
 python manage.py migrate

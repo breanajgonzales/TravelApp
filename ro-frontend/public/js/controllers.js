@@ -49,7 +49,7 @@ angular.module('roApp.controllers', [])
                 'last_name': $scope.last_name
             };
             Restangular.all('users').customPOST($scope.user)
-                .then(function(data) {
+                .then(function(response) {
                     $window.location = 'index.html#/accountProfile';
                     console.log('Register Success: ' + response);
                 }), function(response) {
@@ -113,7 +113,6 @@ angular.module('roApp.controllers', [])
             fd.append("voteCount", $scope.voteCount);
 
             $http.post('http://localhost:8001/location', fd, {
-//            $http.post('http://vast-journey-8108.herokuapp.com/location', fd, {
                 withCredentials: true,
                 headers: {'Content-Type': undefined },
                 transformRequest: angular.identity
@@ -255,7 +254,6 @@ angular.module('roApp.controllers', [])
                 $http({
                     method: 'POST',
                     url: 'http://localhost:8001/comment',
-//                    url: 'http://vast-journey-8108.herokuapp.com/comment',
                     data: fd
                 }).success(function (response) {
                         $scope.commentList[$scope.commentList.length] = response;
@@ -306,17 +304,7 @@ angular.module('roApp.controllers', [])
             console.log('event has been broadcast to Home Controller');
             $scope.session = SessionService.getSession();
         });
-//        var s = $(".filterbox");
-//        var pos = s.position();
-//        $(window).scroll(function() {
-//            var windowpos = $(window).scrollTop();
-//            if (windowpos >= pos.top-40) {
-//                s.addClass("stick");
-//            } else {
-//                s.removeClass("stick");
-//            }
-//        });
-        // for the filters / sorting functionality
+
         $scope.predicate = '-voteCount';
         $scope.predicate = '-datecreated';
 
@@ -488,7 +476,6 @@ angular.module('roApp.controllers', [])
                 $http({
                     method: 'POST',
                     url: 'http://localhost:8001/comment',
-//                    url: 'http://vast-journey-8108.herokuapp.com/comment',
                     data: fd
                 }).success(function (response) {
                         $scope.commentList[$scope.commentList.length] = response;
@@ -506,7 +493,7 @@ angular.module('roApp.controllers', [])
                 location.voted = true;
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)
-                .then(function (data) {
+                    .then(function (data) {
                 })
             }
         };
@@ -516,7 +503,7 @@ angular.module('roApp.controllers', [])
                 location.voted = true;
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)
-                .then(function (data) {
+                    .then(function (data) {
                 })
             }
         };

@@ -1,25 +1,4 @@
 <div class="container">
-    <!--<div logged-out>
-        <login></login>
-    </div>
-
-    <div ng-hide="session">
-        <div login></div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-2 pull-left">
-            <img src="img/logo.png" class="img-responsive center" alt="Placer Logo"/>
-        </div>
-        <div class="col-sm-10 col-xs-12 pull-right">
-            <h1 class="homeh1">Welcome to Placer</h1>
-
-            <h3>Find awesome places that you never knew existed!</h3>
-
-            <p>Learn about interesting places near you, share your favorite hidden gems and start exploring new things
-                today!</p>
-            <br/>
-        </div>
-    </div>-->
 
     <div class="row">
         <div class="col-xs-12 col-sm-3 pull-left">
@@ -33,24 +12,11 @@
                 <br/>
                 <a href="" class="btn btn-info center" ng-click="predicate = 'datecreated'; reverse=!reverse">Sort by Date</a></a>
                 <br/>
-<!--
-                <form class="navbar-form center" role="form">
-                    <div class="form-group">
-                        <input type="text" placeholder="Places near.." class="form-control formresize">
-                    </div>
-                    <select class="form-control">
-                        <option>5 miles</option>
-                        <option>10 miles</option>
-                        <option>50 miles</option>
-                        <option>100 miles</option>
-                    </select>
-                </form>
-                  -->
                 <div id="map-canvas"></div>
                 <br/><br/>
             </div>
         </div>
-        <div class="pinlist col-xs-12 col-sm-9 pull-right">
+        <div class="col-xs-12 col-sm-9 pull-right">
             <h1 class="homeh1">Welcome to Placer</h1>
 
             <h3>Find awesome places that you never knew existed!</h3>
@@ -59,7 +25,7 @@
                 today!</p>
             <br/>
             <section id="photos">
-                <div class="pin grid effect-4" id="grid" ng-repeat="location in locationList | filter:searchText | orderBy:predicate:reverse">
+                <div class="pin grid effect-4" ng-repeat="location in locationList | filter:searchText | orderBy:predicate:reverse">
                     <a href="#/locationDetails/{{ location.id }}">
                         <div class="image">
                             <img src="{{ location.photo_url }}">
@@ -78,61 +44,27 @@
                                 <a ng-click="countChoculaDown(location)"><span class="glyphicon glyphicon-chevron-down"></span></a><br/>
                             </div>
                         </div>
-                        <div class="pull-right">
-                            <button type="button" class="pull-right" ng-click="starLocation(location)">
+                        <div class="pull-right" ng-click="starLocation(location)">
                                 <span class="glyphicon glyphicon-star-empty" ng-hide="location.starLocation"></span>
                                 <span class="glyphicon glyphicon-star" ng-show="location.starLocation"></span>
-                            </button>
-                            <br/>
-                            <br/>
-                            <p>{{ userList[location.user -1].username }}</p>
                         </div>
-
                     </div>
                 </div>
             </section>
-            <!--
-            <div id="columns">
-                <div class="pin" ng-repeat="location in locationList | filter:searchText | orderBy:predicate:reverse">
-                    <a href="#/locationDetails/{{ location.id }}">
-                        <div class="image">
-                            <img src="{{ location.photo_url }}">
-                        </div>
-                        <h3 class="title btn-success">{{ location.locationName }}</h3>
-                    </a>
-                    <div class="padding15">
-                        <p>{{ location.description | lenLimit100}}</p>
-                    </div>
-
-                    <div class="pininfo">
-                        <div class="pull-left">
-                            <div class="center">
-                                <a ng-click="countChoculaUp(location)"><span class="glyphicon glyphicon-chevron-up"></span></a><br/>
-                                <p class="">{{location.voteCount}}</p>
-                                <a ng-click="countChoculaDown(location)"><span class="glyphicon glyphicon-chevron-down"></span></a><br/>
-                            </div>
-                        </div>
-                        <div class="pull-right">
-                            <p>{{ userList[location.user -1].username }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            -->
         </div>
     </div>
 
 
 </div>
 
-		<script src="js/masonry.pkgd.min.js"></script>
-		<script src="js/imagesloaded.js"></script>
-		<script src="js/classie.js"></script>
-		<script src="js/AnimOnScroll.js"></script>
-		<script>
-			new AnimOnScroll( document.getElementById( 'grid' ), {
-				minDuration : 0.4,
-				maxDuration : 0.7,
-				viewportFactor : 0.2
-			} );
-		</script>
+<script src="js/masonry.pkgd.min.js"></script>
+<script src="js/imagesloaded.js"></script>
+<script src="js/classie.js"></script>
+<script src="js/AnimOnScroll.js"></script>
+<script>
+    new AnimOnScroll( document.getElementById( 'grid' ), {
+        minDuration : 0.4,
+        maxDuration : 0.7,
+        viewportFactor : 0.2
+    } );
+</script>

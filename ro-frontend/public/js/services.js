@@ -28,14 +28,7 @@ angular.module('roApp.services', ['angularLocalStorage'])
             }
         };
     })
-//    .factory('SetBaseUrl', function () {
-//        return {
-//            urlToUse: function () {
-//            return RestangularProvider.setBaseUrl("http://localhost:8001/"); // use for editing on local machine
-////            return RestangularProvider.setBaseUrl("http://vast-journey-8108.herokuapp.com/");  // use when pushing to heroku
-//            }
-//        };
-//    })
+
     .factory('mapService', function ($window) {
         // Maps the Location --------------------------------------------------------------------------------->
         return {

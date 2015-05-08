@@ -15,7 +15,7 @@ from rest_framework import permissions
 
 from django.contrib.auth.models import User
 from .models import *
-from .serializers import *
+from serializers import *
 
 
 # Create your views here.
